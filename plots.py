@@ -3,13 +3,13 @@ from bokeh.io import reset_output
 from bokeh.models import Legend, DatetimeTickFormatter
 from bokeh.plotting import figure
 import matplotlib.pyplot as plt
-from bokeh.layouts import gridplot, layout,row
+from bokeh.layouts import gridplot, layout
 from bokeh.palettes import all_palettes
 import numpy as np
 import pandas as pd
 from boxplot import boxplot_data
 from bokeh.io import show
-import holoviews as hv
+
 
 colors = all_palettes['Colorblind'][8]
 
