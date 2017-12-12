@@ -19,9 +19,15 @@ def mae(y, y_hat):
     return np.sum(abs(y - y_hat)) / len(y)
 
 def fit(x,y,deg): 
+    df = pd.DataFrame(data = {'x':x,'y':y})
+    train, test = train_test_split(df, test_size=0.2)
+    x = train['x']
+    y = train['y']
     z = np.polyfit(x, y, deg = deg, full = False)
     p = np.poly1d(z)
-    y_hat = p(y)
+    x = test['x']
+    y = test['y']
+    y_hat = p(x)
     MAE = mae(y, y_hat)
     RMSE = rmse(y, y_hat)
     return (MAE, RMSE)
@@ -39,7 +45,8 @@ def bagged_fit(x,y,deg, bags = 5, frac = .75):
         coef.append(z)
     p = np.poly1d(pd.DataFrame(coef).mean())
     y = test['y']
-    y_hat = p(y)
+    x = test['x']
+    y_hat = p(x)
     MAE = mae(y, y_hat)
     RMSE = rmse(y, y_hat)
     return (MAE, RMSE)
