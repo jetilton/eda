@@ -3,12 +3,13 @@ from bokeh.io import reset_output
 from bokeh.models import Legend, DatetimeTickFormatter
 from bokeh.plotting import figure
 import matplotlib.pyplot as plt
-from bokeh.layouts import gridplot
+from bokeh.layouts import gridplot, layout,row
 from bokeh.palettes import all_palettes
 import numpy as np
 import pandas as pd
 from boxplot import boxplot_data
 from bokeh.io import show
+import holoviews as hv
 
 colors = all_palettes['Colorblind'][8]
 
@@ -76,9 +77,9 @@ def simple_plot(df, bok = False, **kwargs):
     else:
        mlib_sp(plot_dict, **kwargs)
 
-def bok_circle(x,y):
-    p = figure(plot_width=200, plot_height=200)
-    p.circle(x, y, size=5, color="navy", alpha=0.2)
+def bok_circle(x,y, w=200, h = 200):
+    p = figure(plot_width=w, plot_height=h)
+    p.circle(x, y, size=5, color=colors[0], alpha=0.2)
     return p
     
 def bok_lag(series, lags):
@@ -156,19 +157,49 @@ def bok_decompose(df):
     p = gridplot(plot_list, ncols=1, plot_height = 225, plot_width = 800)
     return p
 
-def new_plot(series):
+def process_control_plot(series):
     x = series.index
     y = series.values
     quantiles,outliers = boxplot_data(series)
     p = bok_line(x,y)
-    p.line(x, quantiles['lower_outer_fence'], line_dash='dashed', line_color='grey')
-    p.line(x, quantiles['q1'], line_color = 'grey')
-    p.line(x, quantiles['q2'], line_color='black')
-    p.line(x, quantiles['upper_outer_fence'], line_dash='dashed', line_color='grey')
-    p.line(x, quantiles['q3'], line_color = 'grey')
+    p.line(x, series.mean()+3*series.std(), line_color = 'red')
+    p.line(x, series.mean()+2*series.std(), line_color = 'grey')
+    p.line(x, series.mean()+series.std(), line_dash='dashed', line_color='grey')
+    p.line(x, series.mean(), line_color='black')
+    p.line(x, series.mean()-series.std(), line_dash='dashed', line_color='grey')
+    p.line(x, series.mean()-2*series.std(), line_color = 'grey')
+    p.line(x, series.mean()-3*series.std(), line_color = 'red')
     return p 
-   
+
+def bk_hist(series, w = 200, h = 200, c = colors[0]):
+    p = figure(plot_width = w, plot_height = h)
+    hist, edges = np.histogram(series, density=True)
+    p.quad(top=hist, bottom=0, left=edges[:-1], right=edges[1:],color = c)  
+    return p
+  
+def bk_matrix(df):
+    rows = []
+    for c in df.columns:
+        r = []
+        for c2 in df.columns:
+            
+            if c == c2:
+                p = bk_hist(df[c])
+                p.xaxis.axis_label = c
+            else: 
+                d = df[[c, c2]].reset_index(drop = True)
+                d.sort_values(by = c, inplace = True)
+                p = bok_circle(d[c2],d[c])
+                p.xaxis.axis_label = c2
+                p.yaxis.axis_label = c
+            p.toolbar.logo=None
+            p.toolbar_location = None
+            r.append(p)      
+        rows.append(r)
+    return layout(rows)
     
-    
-    
-    
+
+
+
+
+
