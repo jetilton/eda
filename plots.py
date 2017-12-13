@@ -2,7 +2,6 @@
 from bokeh.io import reset_output
 from bokeh.models import Legend, DatetimeTickFormatter
 from bokeh.plotting import figure
-import matplotlib.pyplot as plt
 from bokeh.layouts import gridplot, layout
 from bokeh.palettes import all_palettes
 import numpy as np
@@ -40,20 +39,6 @@ def bok_sp(plot_dict, **kwargs):
     reset_output()  
     return p
 
-def mlib_sp(plot_dict, **kwargs):
-    if kwargs: figsize = kwargs['figsize']
-    else: figsize = (15,10)
-    plt.figure(figsize=figsize )
-    p = 211
-    for unit,values in plot_dict.items():
-        plt.subplot(p)
-        for data in values:
-           
-            column_name,x,y = data 
-            plt.plot(x,y, label = column_name)
-            plt.legend(bbox_to_anchor=(1.04,0), loc=3, borderaxespad=0)
-
-        p += 1
 
 def create_plot_dict(df):
     plot_dict = {}
@@ -70,24 +55,18 @@ def create_plot_dict(df):
             plot_dict.update({units:[(column_name,x,y)]})
     return plot_dict
 
-def simple_plot(df, bok = False, **kwargs):
-    plot_dict = create_plot_dict(df)
-    if bok:
-       return bok_sp(plot_dict, **kwargs) 
-    else:
-       mlib_sp(plot_dict, **kwargs)
 
-def bok_circle(x,y, w=200, h = 200):
+def bk_circle(x,y, w=200, h = 200):
     p = figure(plot_width=w, plot_height=h)
     p.circle(x, y, size=5, color=colors[0], alpha=0.2)
     return p
     
-def bok_lag(series, lags):
+def bk_lag(series, lags):
     plot_list = []
     x = series
     for lag in range(1, lags+1):
         y = x.shift(lag)
-        p = bok_circle(x,y)
+        p = bk_circle(x,y)
         p.xaxis.axis_label = 't+1'
         p.yaxis.axis_label = 't-'+str(lag)
         plot_list.append(p)
@@ -113,7 +92,7 @@ def significance(series):
     z99 = 2.5758293035489004 / np.sqrt(n)
     return(z95,z99)
     
-def bok_autocor(series):
+def bk_autocor(series):
     x = pd.Series(range(1, len(series)+1), dtype = float)
     z95, z99 = significance(series)
     y = acf(series)
@@ -131,7 +110,7 @@ def bok_autocor(series):
     p.outline_line_alpha = 0.0
     return p
 
-def bok_line(x,y):
+def bk_line(x,y):
     p = figure(plot_width=1000, plot_height=300, x_axis_type = 'datetime')
     p.line(x, y, color=colors[0])
     p.xgrid.visible = False
@@ -140,17 +119,17 @@ def bok_line(x,y):
     p.outline_line_alpha = 0.0
     return p
     
-def bok_decompose(df):
+def bk_decompose(df):
     plot_list = []
     x = df['date']
     columns = ['observed', 'trend', 'seasonal', 'residuals']
     for column in columns:
         y = df[column]
-        p = bok_line(x,y)
+        p = bk_line(x,y)
         p.xaxis.axis_label = 'date'
         p.yaxis.axis_label = column
         plot_list.append(p)
-    p = df['residuals'].pipe(bok_autocor)
+    p = df['residuals'].pipe(bk_autocor)
     p.title.visible = False
     p.yaxis.axis_label = 'residual autocorrelation'
     plot_list.append(p)
@@ -161,7 +140,7 @@ def process_control_plot(series):
     x = series.index
     y = series.values
     quantiles,outliers = boxplot_data(series)
-    p = bok_line(x,y)
+    p = bk_line(x,y)
     p.line(x, series.mean()+3*series.std(), line_color = 'red')
     p.line(x, series.mean()+2*series.std(), line_color = 'grey')
     p.line(x, series.mean()+series.std(), line_dash='dashed', line_color='grey')
@@ -189,7 +168,7 @@ def bk_matrix(df):
             else: 
                 d = df[[c, c2]].reset_index(drop = True)
                 d.sort_values(by = c, inplace = True)
-                p = bok_circle(d[c2],d[c])
+                p = bk_circle(d[c2],d[c])
                 p.xaxis.axis_label = c2
                 p.yaxis.axis_label = c
             p.toolbar.logo=None
