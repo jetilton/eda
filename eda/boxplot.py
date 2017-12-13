@@ -3,9 +3,8 @@
 import pandas as pd
 from bokeh.plotting import figure, show
 from math import pi
-import seaborn as sns
-import matplotlib.pyplot as plt
-from eda.plots import colors
+from bokeh.palettes import all_palettes
+colors = all_palettes['Colorblind'][8]
 
 def df_freq(series, freq = 'year'):
     """
