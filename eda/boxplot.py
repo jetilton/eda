@@ -5,7 +5,7 @@ from bokeh.plotting import figure, show
 from math import pi
 import seaborn as sns
 import matplotlib.pyplot as plt
-from plots import colors
+from eda.plots import colors
 
 def df_freq(series, freq = 'year'):
     """

@@ -6,7 +6,7 @@ from bokeh.layouts import gridplot, layout
 from bokeh.palettes import all_palettes
 import numpy as np
 import pandas as pd
-from boxplot import boxplot_data
+from eda.boxplot import boxplot_data
 from bokeh.io import show
 
 
