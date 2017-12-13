@@ -57,7 +57,7 @@ def create_plot_dict(df):
 
 
 def bk_circle(x,y, w=200, h = 200):
-    p = figure(plot_width=w, plot_height=h)
+    p = figure(plot_width=w, plot_height=h, output_backend="webgl")
     p.circle(x, y, size=5, color=colors[0], alpha=0.2)
     return p
     
@@ -110,8 +110,8 @@ def bk_autocor(series):
     p.outline_line_alpha = 0.0
     return p
 
-def bk_line(x,y):
-    p = figure(plot_width=1000, plot_height=300, x_axis_type = 'datetime')
+def bk_line(x,y, w = 1000, h = 300, title = ''):
+    p = figure(plot_width=w, plot_height=h, x_axis_type = 'datetime', title = title, output_backend="webgl")
     p.line(x, y, color=colors[0])
     p.xgrid.visible = False
     p.ygrid.visible = False
@@ -136,11 +136,11 @@ def bk_decompose(df):
     p = gridplot(plot_list, ncols=1, plot_height = 225, plot_width = 800)
     return p
 
-def process_control_plot(series):
+def process_control_plot(series, w = 1000, h = 300, title = ''):
     x = series.index
     y = series.values
     quantiles,outliers = boxplot_data(series)
-    p = bk_line(x,y)
+    p = bk_line(x,y,w,h, title)
     p.line(x, series.mean()+3*series.std(), line_color = 'red', legend = '3 standard deviations')
     p.line(x, series.mean()+2*series.std(), line_color = 'grey', legend = '2 standard deviations')
     p.line(x, series.mean()+series.std(), line_dash='dashed', line_color='grey', legend = '1 standard deviation')
