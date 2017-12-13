@@ -72,7 +72,7 @@ def boxplot_data(series):
     d['upper_outer_fence'] = d['q3'] + 3 * d['iq']
     d['upper_whisker'] = series.mean()+3*series.std()
     d['lower_whisker'] = series.mean()-3*series.std()
-    outliers= pd.s[(s>d['upper_outer_fence']) | (s<d['lower_outer_fence'])]
+    outliers= s[(s>d['upper_outer_fence']) | (s<d['lower_outer_fence'])]
     return (d, outliers)
     
     
