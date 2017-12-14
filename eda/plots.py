@@ -57,7 +57,7 @@ def create_plot_dict(df):
 
 
 def bk_circle(x,y, w=200, h = 200):
-    p = figure(plot_width=w, plot_height=h, output_backend="webgl")
+    p = figure(plot_width=w, plot_height=h)
     p.circle(x, y, size=5, color=colors[0], alpha=0.2)
     return p
     
@@ -111,7 +111,7 @@ def bk_autocor(series):
     return p
 
 def bk_line(x,y, w = 1000, h = 300, title = ''):
-    p = figure(plot_width=w, plot_height=h, x_axis_type = 'datetime', title = title, output_backend="webgl")
+    p = figure(plot_width=w, plot_height=h, x_axis_type = 'datetime', title = title)
     p.line(x, y, color=colors[0])
     p.xgrid.visible = False
     p.ygrid.visible = False
