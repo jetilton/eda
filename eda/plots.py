@@ -58,7 +58,7 @@ def create_plot_dict(df):
 
 def bk_circle(x,y, w=200, h = 200):
     p = figure(plot_width=w, plot_height=h)
-    p.circle(x, y, size=5, color=colors[0], alpha=0.2)
+    p.circle(x, y, size=5, color=colors[0], alpha=0.1)
     return p
     
 def bk_lag(series, lags):
