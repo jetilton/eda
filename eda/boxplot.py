@@ -135,7 +135,7 @@ def bk_bx_plt(data, title='', freq = '', w = 1000, h = 400):
     #outliers
     if not outliers.empty:
         
-        p.circle(x = [str(x) for x in outliers.index], y = list(outliers.values), size=10, color=colors[1])
+        p.circle(x = outliers.index, y = outliers.values[0], size=5, color=colors[1])
     
     p.xgrid.visible = False
     p.ygrid.visible = False
