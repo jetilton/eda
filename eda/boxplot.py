@@ -111,6 +111,7 @@ def ts_box_data(series, freq = 'year'):
     df.set_index('date', inplace = True)
     #df['date'] = pd.to_datetime(df['date'])
     ol = pd.concat(ol)
+    ol.set_index('date', inplace = True)
     #ol['date'] = pd.to_datetime(ol['date'])
     return (df, ol)
 
@@ -132,7 +133,7 @@ def bk_bx_plt(data, title='', freq = '', w = 1000, h = 400):
     #median
     p.vbar(x = df.index, width = .5, bottom = df['q2']-.01, top = df['q2']+.01, fill_color="black", line_color="black")
     #outliers
-    if outliers.values:
+    if not outliers.empty:
         
         p.circle(x = [str(x) for x in outliers.index], y = list(outliers.values), size=10, color=colors[1])
     
