@@ -56,9 +56,9 @@ def create_plot_dict(df):
     return plot_dict
 
 
-def bk_circle(x,y, w=200, h = 200):
+def bk_circle(x,y, w=200, h = 200, alpha=0.1):
     p = figure(plot_width=w, plot_height=h)
-    p.circle(x, y, size=5, color=colors[0], alpha=0.1)
+    p.circle(x, y, size=5, color=colors[0], alpha=alpha)
     return p
     
 def bk_lag(series, lags):
@@ -110,8 +110,8 @@ def bk_autocor(series):
     p.outline_line_alpha = 0.0
     return p
 
-def bk_line(x,y, w = 1000, h = 300, title = ''):
-    p = figure(plot_width=w, plot_height=h, x_axis_type = 'datetime', title = title)
+def bk_line(x,y, w = 1000, h = 300, title = '', x_axis_type = 'datetime' ):
+    p = figure(plot_width=w, plot_height=h, x_axis_type = x_axis_type, title = title)
     p.line(x, y, color=colors[0])
     p.xgrid.visible = False
     p.ygrid.visible = False
