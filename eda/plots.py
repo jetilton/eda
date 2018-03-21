@@ -140,14 +140,22 @@ def process_control_plot(series, w = 1000, h = 300, title = ''):
     x = series.index
     y = series.values
     quantiles,outliers = boxplot_data(series)
-    p = bk_line(x,y,w,h, title)
-    p.line(x, series.mean()+3*series.std(), line_color = 'red', legend = '3 standard deviations')
-    p.line(x, series.mean()+2*series.std(), line_color = 'grey', legend = '2 standard deviations')
-    p.line(x, series.mean()+series.std(), line_dash='dashed', line_color='grey', legend = '1 standard deviation')
-    p.line(x, series.mean(), line_color='black',legend = 'mean')
+    p = bk_line(x,y,w,h, title, toolbar_location = 'above')
+    s3 = p.line(x, series.mean()+3*series.std(), line_color = 'red')
+    s2 = p.line(x, series.mean()+2*series.std(), line_color = 'grey')
+    s1 = p.line(x, series.mean()+series.std(), line_dash='dashed', line_color='grey')
+    m = p.line(x, series.mean(), line_color='black')
     p.line(x, series.mean()-series.std(), line_dash='dashed', line_color='grey')
     p.line(x, series.mean()-2*series.std(), line_color = 'grey')
     p.line(x, series.mean()-3*series.std(), line_color = 'red')
+    legend = Legend(items=[
+    ('3 standard deviations' , [s3]),
+    ('2 standard deviations' , [s2]),
+    ('1 standard deviations' , [s1]),
+    ("Mean" , [m])], location=(0, 0))
+    
+    p.add_layout(legend, 'below')
+    p.legend.orientation = "horizontal"
     return p 
 
 def bk_hist(series, w = 200, h = 200, c = colors[0]):
