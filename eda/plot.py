@@ -6,9 +6,7 @@ from eda.matrix import bk_circle, bk_hist, bk_matrix
 from eda.autocorrelation import autocor
 from eda.stl import stl_plot
 from bokeh.palettes import all_palettes
-from bokeh.themes import Theme
-import yaml
+from eda.theme import theme
 colors = all_palettes['Colorblind'][8]
 
 #theme = Theme(json = yaml.safe_load(open('eda/theme.yml')))
-theme = Theme(json = yaml.safe_load(open('theme.yml')))
