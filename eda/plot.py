@@ -7,6 +7,7 @@ from eda.autocorrelation import autocor
 from eda.stl import stl_plot
 from bokeh.palettes import all_palettes
 from bokeh.themes import Theme
+import yaml
 colors = all_palettes['Colorblind'][8]
 
 theme = Theme(json = yaml.safe_load(open('eda/theme.yml')))
