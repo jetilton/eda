@@ -15,7 +15,7 @@ from bokeh.layouts import layout
 #https://codefying.com/2016/08/18/two-ways-to-perform-linear-regression-in-python-with-numpy-ans-sk-learn/
 
 
-def bk_circle(x,y, alpha=0.08, theme = False, regress = False, **kwargs):
+def bk_circle(x,y, alpha=0.08, size = 5, theme = False, regress = False, **kwargs):
     
     df = pd.DataFrame(data = {'x':x,'y':y})
     df.sort_values(by = 'x', inplace = True)
@@ -27,7 +27,7 @@ def bk_circle(x,y, alpha=0.08, theme = False, regress = False, **kwargs):
         doc = curdoc()
         doc.theme = theme
         doc.add_root(p)  
-    p.circle(x, y, size=5, alpha=alpha)
+    p.circle(x, y, size=size, alpha=alpha)
     if regress:
         try:
             if kwargs['best_poly']:
