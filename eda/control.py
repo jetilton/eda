@@ -42,7 +42,7 @@ def control_plot(series, theme = False, title = '', x_axis_type = 'datetime', **
     p.line(x, series.mean()-series.std(), line_dash='dashed', line_color='grey', line_width = 2)
     p.line(x, series.mean()-2*series.std(), line_color = 'grey', line_width = 2)
     p.line(x, series.mean()-3*series.std(), line_color = 'red', line_width = 2)
-    p.line(x, y)
+    p.line(x, y, line_width = 3)
     legend = Legend(items=[
     ('3 standard deviations' , [s3]),
     ('2 standard deviations' , [s2]),
